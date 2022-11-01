@@ -1,0 +1,28 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "Chat App using Socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sankeerth125/chat-app-with-socket.io.git"
+  },
+  "author": "Sankeerth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sankeerth125/chat-app-with-socket.io/issues"
+  },
+  "homepage": "https://github.com/sankeerth125/chat-app-with-socket.io#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.5.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
