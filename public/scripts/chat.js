@@ -8,7 +8,9 @@ const $sendMessage = document.querySelector("#send-message");
 const $messages = document.querySelector("#messages");
 
 //Templates
-const messageTemplate = document.querySelector("#message-template").innerHTML;
+const messageTemplate = document.querySelector(
+  "#message-template-receive"
+).innerHTML;
 
 socket.on("message", (message) => {
   console.log(message);
