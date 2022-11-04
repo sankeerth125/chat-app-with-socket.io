@@ -1,4 +1,7 @@
 html {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   height: 100%;
 }
 
@@ -9,166 +12,81 @@ body {
   background: #e5e5e5;
 }
 
-.main-container {
-  border-radius: 25px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  width: 60%;
-  height: 100vh;
-  background-color: #f8f9fb;
+/* Join Page CSS */
+
+.login-container {
   margin: auto;
-  display: flex;
-  flex-direction: row;
-}
-
-.left-section {
-  width: 33.33%;
-  height: 100vh;
+  height: 430px;
+  width: 350px;
+  border-radius: 25px;
   background-color: #007aff;
   color: white;
-  border-radius: 25px 0px 0px 25px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.app-title {
-  padding-top: 22px;
-  height: 58px;
-  font-family: cursive;
-  font-size: 36px;
-  text-align: center;
+.login-logo {
+  height: 120px;
+  margin: 40px 102.5px 30px 102.5px;
 }
 
-.right-section {
-  background-color: f8f9fb;
-  width: 66.67%;
-  height: 100vh;
-}
-
-.title-bar {
-  background-color: #f8f9fb;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  height: 80px;
-}
-
-.chat-area {
-  height: calc(100vh - 165px);
-  overflow: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-bottom: 15px;
-}
-
-.chat-area::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #f5f5f5;
-}
-
-.chat-area::-webkit-scrollbar {
-  width: 6px;
-  background-color: #f5f5f5;
-}
-
-.chat-area::-webkit-scrollbar-thumb {
-  background-color: #000000;
-}
-
-.actions-area {
-  height: 70px;
-  border-radius: 0px 0px 25px 0px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  background-color: #ebebeb;
-}
-
-.row {
-  padding-top: 15px;
-  padding-left: 15px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.input-field {
-  height: 40px;
-  width: 70%;
-  background-color: #ebebeb;
-  border: none;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.input-field:focus {
-  outline: none;
-}
-
-.send-button {
-  color: white;
-  background-color: #007aff;
-}
-
-.send-button:hover {
-  color: white;
-  background-color: #228dff;
-}
-
-.location-button {
-  color: white;
-  background-color: #f8308eec;
-}
-
-.location-button:hover {
-  color: white;
-  background-color: #f853a0ea;
-}
-
-.chat-buttons {
-  border: none;
-  border-radius: 50%;
-  height: 40px;
-  width: 40px;
-  text-align: center;
-  padding-top: 5px;
-  margin-left: 15px;
-  cursor: pointer;
-}
-
-/* Chat Bubble Styling */
-
-.chat-bubble-receive {
+.login-form {
   display: flex;
   flex-direction: column;
   width: fit-content;
-  padding: 10px;
-  background-color: #eaeaea;
-  border-radius: 12px;
-  margin-top: 15px;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  margin: auto;
+  align-items: center;
 }
 
-.username {
+.login-form div input {
+  height: 30px;
+  border: none;
+  color: #7a7a7a;
+  background-color: white;
+  border-radius: 3px;
+  padding-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-family: cursive;
+}
+
+.login-form div input:focus {
+  outline: none;
+}
+
+.login-form div label {
   font-weight: bold;
-  font-size: 13px;
 }
 
-.message-text {
-  margin-top: 3px;
-  font-size: 16px;
-  word-break: break-all;
-}
-
-.message-time {
-  text-align: end;
-  font-size: 10px;
-  margin-top: 5px;
-  margin-left: 7px;
-  vertical-align: sub;
-}
-
-.chat-bubble-sent {
+.login-form div {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+.login-form button {
   width: fit-content;
-  padding: 10px;
-  background-color: #007aff;
-  color: white !important;
-  border-radius: 12px;
+  padding: 10px 25px 10px 25px;
+  font-size: initial;
   margin-top: 15px;
-  box-shadow: rgba(0, 0, 0, 0.25) 1.95px 1.95px 2.6px;
-  float: right;
+  font-weight: 600;
+  background: none;
+  color: white;
+  border: 2px solid;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+}
+
+.login-form button:hover {
+  width: fit-content;
+  padding: 10px 25px 10px 25px;
+  font-size: initial;
+  margin-top: 15px;
+  font-weight: 600;
+  background-color: white;
+  color: #007aff;
+  border: 2px solid;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
 }
