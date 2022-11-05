@@ -2,7 +2,13 @@ const path = require("path");
 const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
-const { generateMessage } = require("./utils/messages");
+const { generateMessage, MessageType } = require("./utils/messages");
+const {
+  addUser,
+  removeUser,
+  getUser,
+  getUsersInRoom,
+} = require("./utils/users");
 
 const app = express();
 const server = http.createServer(app);
@@ -14,30 +20,81 @@ const pathToPublicDir = path.join(__dirname, "../public");
 app.use(express.static(pathToPublicDir));
 
 io.on("connection", (socket) => {
-  socket.emit("message", generateMessage("Welcome to Chat App"));
-
-  socket.broadcast.emit(
-    "message",
-    generateMessage("A new user has joined chat")
-  ); // broadcast sends message to all users expect the currrent user
-
-  socket.on("sendMessage", (message, callback) => {
-    io.emit("message", generateMessage(message));
-    callback();
+  socket.on("sendMessage", ({ message, id }, callback) => {
+    const user = getUser(socket.id);
+    let type = "received";
+    console.log(id, socket.id);
+    if (id === socket.id) type = "sent";
+    if (user) {
+      io.to(user.room).emit(
+        "message",
+        generateMessage(message, type, user.username)
+      );
+      callback();
+    }
   });
 
   socket.on("disconnect", () => {
-    io.emit("message", generateMessage("A user has left the chat"));
+    const user = removeUser(socket.id);
+    if (user) {
+      io.to(user.room).emit(
+        "message",
+        generateMessage(
+          `${user.username} has left the chat`,
+          MessageType.NOTIFICATION,
+          undefined
+        )
+      );
+
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room),
+      });
+    }
   });
 
   socket.on("sendLocation", (location, callback) => {
     io.emit(
       "message",
       generateMessage(
-        `https://google.com/maps?q=${location.latitude},${location.longitude}`
+        `https://google.com/maps?q=${location.latitude},${location.longitude}`,
+        undefined,
+        undefined
       )
     );
     callback();
+  });
+
+  socket.on("join", ({ username, room }, callback) => {
+    const { user, error } = addUser({ id: socket.id, username, room });
+
+    if (error) {
+      return callback(error);
+    }
+
+    socket.join(user.room);
+
+    socket.emit(
+      "message",
+      generateMessage("Welcome to QuickChat!", MessageType.NOTIFICATION),
+      undefined
+    );
+
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        "message",
+        generateMessage(
+          `${user.username} has joined chat`,
+          MessageType.NOTIFICATION,
+          undefined
+        )
+      );
+
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
   });
 });
 

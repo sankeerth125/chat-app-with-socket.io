@@ -8,23 +8,58 @@ const $sendMessage = document.querySelector("#send-message");
 const $messages = document.querySelector("#messages");
 
 //Templates
-const messageTemplate = document.querySelector(
+const messageTemplateSent = document.querySelector(
+  "#message-template-sent"
+).innerHTML;
+
+const messageTemplateReceive = document.querySelector(
   "#message-template-receive"
 ).innerHTML;
 
-socket.on("message", (message) => {
-  console.log(message);
+const messageTemplateNotification = document.querySelector(
+  "#message-template-notification"
+).innerHTML;
+
+const sidebarTemplate = document.querySelector("#sidebar-template").innerHTML;
+
+//Options
+const { username, room } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true,
+});
+
+const generateTemplate = (message, messageTemplate) => {
   const html = Mustache.render(messageTemplate, {
-    message: message.text,
+    message: message.message,
     createdAt: moment(message.createdAt).format("h:mm A"),
+    username: message.username,
   });
   $messages.insertAdjacentHTML("beforeend", html);
+};
+
+socket.on("message", (message) => {
+  console.log(message.username, username, "usernames");
+  if (message.type === "notification")
+    generateTemplate(message, messageTemplateNotification);
+  else if (
+    message.username?.trim().toLowerCase() === username?.trim().toLowerCase()
+  )
+    generateTemplate(message, messageTemplateSent);
+  else generateTemplate(message, messageTemplateReceive);
+});
+
+socket.on("roomData", ({ room, users }) => {
+  const html = Mustache.render(sidebarTemplate, {
+    room,
+    users,
+  });
+  document.querySelector("#sidebar").innerHTML = html;
 });
 
 $messageForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const message = document.querySelector("input").value;
-  socket.emit("sendMessage", message, () => {
+  const id = socket.id;
+  socket.emit("sendMessage", { message, id }, () => {
     $messageFormInput.value = "";
     $messageFormInput.focus();
   });
@@ -47,4 +82,8 @@ $sendLocation?.addEventListener("click", (e) => {
       }
     );
   });
+});
+
+socket.emit("join", { username, room }, (error) => {
+  console.log(error);
 });
